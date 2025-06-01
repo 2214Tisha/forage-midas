@@ -1,0 +1,21 @@
+package com.jpmc.midascore.service;
+
+import com.jpmc.midascore.foundation.Balance;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Service
+public class BalanceService {
+
+    private final Map<String, Balance> userBalances = new ConcurrentHashMap<>();
+
+    public Balance getBalanceForUser(String userId) {
+        return userBalances.getOrDefault(userId, new Balance(userId, 0));
+    }
+
+    public void updateBalance(String userId, int amount) {
+        userBalances.put(userId, new Balance(userId, amount));
+    }
+}
